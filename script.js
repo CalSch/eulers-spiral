@@ -193,6 +193,12 @@ addNumber("Framerate",(ev)=>{
         frameRate = value;
 },frameRate,1);
 
+addNumber("draw()'s per frame",(ev)=>{
+    let value = parseInt(ev.target.value);
+    if (value != NaN)
+        drawsPerFrame = value;
+},drawsPerFrame,1);
+
 addNumber("Step size",(ev)=>{
     let value = parseInt(ev.target.value);
     if (value != NaN)
