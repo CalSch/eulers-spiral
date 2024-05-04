@@ -89,12 +89,34 @@ function reset() {
     pointY = 0;
     direction = 0;
     angleAddend = 0;
+
+    minX = 0;
+    maxX = 0;
+    minY = 0;
+    maxY = 0;
+
+    points = [];
+    update();
     draw();
 }
 
 function clear() {
     ctx.fillStyle = "black";
     ctx.fillRect(0,0,screenWidth,screenHeight);
+}
+
+function update() {
+    pointX += Math.cos(direction * Math.PI/180) * stepSize;
+    pointY += Math.sin(direction * Math.PI/180) * stepSize;
+    direction += angleAddend;
+    angleAddend += angleStepSize;
+
+    points.push({x:pointX,y:pointY});
+
+    minX = Math.min(minX,pointX);
+    maxX = Math.max(maxX,pointX);
+    minY = Math.min(minY,pointY);
+    maxY = Math.max(maxY,pointY);
 }
 
 function draw() {
@@ -104,13 +126,6 @@ function draw() {
     let windowData = getWindowData();
 
     ctx.strokeStyle = "white";
-
-    pointX += Math.cos(direction * Math.PI/180) * stepSize;
-    pointY += Math.sin(direction * Math.PI/180) * stepSize;
-    direction += angleAddend;
-    angleAddend += angleStepSize;
-
-    points.push({x:pointX,y:pointY});
 
     ctx.beginPath();
 
@@ -130,11 +145,6 @@ function draw() {
     ctx.stroke();
 
     ctx.restore();
-
-    minX = Math.min(minX,pointX);
-    maxX = Math.max(maxX,pointX);
-    minY = Math.min(minY,pointY);
-    maxY = Math.max(maxY,pointY);
 }
 
 clear();
@@ -143,7 +153,8 @@ function drawHandler() {
     if (running) {
         // Draw 20 times per frame
         for (let i=drawsPerFrame;i--;)
-            draw();
+            update();
+        draw();
     }
     setTimeout(drawHandler, 1000/frameRate);
 }
@@ -168,6 +179,7 @@ addButton("Stop",(ev)=>{
 });
 addButton("Step",(ev)=>{
     for (let i=stepAmount;i--;)
+        update();
     draw();
 });
 
@@ -200,16 +212,16 @@ addNumber("draw()'s per frame",(ev)=>{
 },drawsPerFrame,1);
 
 addNumber("Step size",(ev)=>{
-    let value = parseInt(ev.target.value);
+    let value = parseFloat(ev.target.value);
     if (value != NaN)
         stepSize = value;
-},stepSize,1);
+},stepSize,0.1);
 
 addNumber("Direction step size",(ev)=>{
-    let value = parseInt(ev.target.value);
+    let value = parseFloat(ev.target.value);
     if (value != NaN)
         angleStepSize = value;
-},angleStepSize,1);
+},angleStepSize,0.1);
 
 addSeparator();
 
