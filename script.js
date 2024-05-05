@@ -167,7 +167,7 @@ let stepAmount = 1;
 
 let resetAfterChange = false;
 
-function tryClear() {
+function afterChange() {
     if (resetAfterChange) reset();
 }
 
@@ -213,15 +213,30 @@ addNumber("draw()'s per frame",(ev)=>{
 
 addNumber("Step size",(ev)=>{
     let value = parseFloat(ev.target.value);
-    if (value != NaN)
+    if (value != NaN) {
         stepSize = value;
-},stepSize,0.01);
+        afterChange()
+    }
+},stepSize,0.00001);
 
 addNumber("Direction step size",(ev)=>{
     let value = parseFloat(ev.target.value);
-    if (value != NaN)
+    if (value != NaN) {
         angleStepSize = value;
-},angleStepSize,0.01);
+        afterChange()
+    }
+},angleStepSize,0.00001);
+
+addButton("Randomize",(ev)=>{
+    stepSize = Math.random()*10+5;
+    angleStepSize = Math.random()*10;
+    setPropertyValue("Step size",stepSize);
+    updateNumber("Step size");
+    setPropertyValue("Direction step size",angleStepSize);
+    updateNumber("Direction step size");
+
+    afterChange();
+})
 
 addSeparator();
 
