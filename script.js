@@ -24,7 +24,7 @@ ctx.lineCap = "round";
 ctx.lineWidth = 1;
 
 let drawsPerFrame = 1;
-let frameRate = 1;
+let frameRate = 60;
 
 let stepSize = 20;
 let angleStepSize = 10;
