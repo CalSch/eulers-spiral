@@ -215,13 +215,13 @@ addNumber("Step size",(ev)=>{
     let value = parseFloat(ev.target.value);
     if (value != NaN)
         stepSize = value;
-},stepSize,0.1);
+},stepSize,0.01);
 
 addNumber("Direction step size",(ev)=>{
     let value = parseFloat(ev.target.value);
     if (value != NaN)
         angleStepSize = value;
-},angleStepSize,0.1);
+},angleStepSize,0.01);
 
 addSeparator();
 
